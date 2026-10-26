@@ -1,46 +1,107 @@
 classDiagram
     direction TB
+
+    class Iterable~T~ {
+        <<interface>>
+        +iterator() Iterator~T~
+    }
+    class Iterator~T~ {
+        <<interface>>
+        +hasNext() boolean
+        +next() T
+    }
+    class Comparator~T~ {
+        <<interface>>
+        +compare(o1: T, o2: T) int
+    }
+    class Exception
+
+    class PlayList {
+        +PlayList()
+        +PlayList(m3uPathname: String)
+        +add(file: AudioFile)
+        +remove(file: AudioFile)
+        +size() int
+        +currentAudioFile() AudioFile
+        +nextSong() void
+        +jumpToAudioFile(file: AudioFile)
+        +loadFromM3U(pathname: String) void
+        +saveAsM3U(pathname: String) void
+        +getList() List~AudioFile~
+        +getSortCriterion() SortCriterion
+        +setSortCriterion(value: SortCriterion)
+        +getSearch() String
+        +setSearch(value: String)
+        +iterator() Iterator~AudioFile~
+    }
+    class ControllablePlayListIterator {
+        -list: List~AudioFile~
+        -index: int
+        +jumpToAudioFile(file: AudioFile) AudioFile
+    }
+    class SortCriterion {
+        <<enumeration>>
+        DEFAULT
+        AUTHOR
+        TITLE
+        ALBUM
+        DURATION
+    }
+    class NotPlayableException {
+        -pathname: String
+        +getPathname() String
+        +toString() String
+    }
+    class AudioFileFactory {
+        +createAudioFile(path: String)$ AudioFile
+    }
     class AudioFile {
         <<abstract>>
-        +parsePathname(path)
-        +parseFilename(file)
-        +play()*
-        +togglePause()*
-        +stop()*
+        +parsePathname(path: String)
+        +parseFilename(file: String)
+        +getAuthor() String
+        +getTitle() String
+        +play()* void
+        +togglePause()* void
+        +stop()* void
     }
     class SampledFile {
         <<abstract>>
-        #duration
-        +formatDuration()
-        +formatPosition()
+        #duration: long
+        +formatDuration() String
+        +formatPosition() String
+        +timeFormatter(micros: long)$ String
     }
-    class WavFile
     class TaggedFile {
-        -album
+        -album: String
         +readAndStoreTags()
     }
-    class AudioFileFactory {
-        +createAudioFile(path)$
+    class WavFile {
+        +readAndSetDurationFromFile()
+        +computeDuration(frames: long, rate: float)$ long
     }
-    class PlayList {
-        +loadFromM3U(path)
-        +saveAsM3U(path)
-        +nextSong()
-        +jumpToAudioFile(file)
-    }
-    class ControllablePlayListIterator
-    class Comparator~AudioFile~ {
-        <<interface>>
-    }
+    class AuthorComparator
+    class TitleComparator
+    class AlbumComparator
+    class DurationComparator
 
+
+    Iterable~T~ <|.. PlayList
+    Iterator~T~ <|.. ControllablePlayListIterator
+    Exception <|-- NotPlayableException
+    Comparator~T~ <|.. AuthorComparator
+    Comparator~T~ <|.. TitleComparator
+    Comparator~T~ <|.. AlbumComparator
+    Comparator~T~ <|.. DurationComparator
     AudioFile <|-- SampledFile
-    SampledFile <|-- WavFile
     SampledFile <|-- TaggedFile
+    SampledFile <|-- WavFile
+
+    PlayList "1" o-- "*" AudioFile : contains
+    PlayList --> SortCriterion
+    PlayList ..> ControllablePlayListIterator : creates
+    ControllablePlayListIterator ..> Comparator~T~ : sorts with
     AudioFileFactory ..> AudioFile : creates
-    PlayList o-- AudioFile
-    PlayList --> ControllablePlayListIterator
-    ControllablePlayListIterator ..> Comparator~AudioFile~ : sorts with
-    Comparator~AudioFile~ <|.. AuthorComparator
-    Comparator~AudioFile~ <|.. TitleComparator
-    Comparator~AudioFile~ <|.. AlbumComparator
-    Comparator~AudioFile~ <|.. DurationComparator
+    AudioFileFactory ..> NotPlayableException : unknown extension
+    AudioFile ..> NotPlayableException : file not readable
+
