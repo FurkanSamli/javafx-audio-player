@@ -49,6 +49,9 @@ classDiagram
     }
     class NotPlayableException {
         -pathname: String
+        +NotPlayableException(pathname, msg)
+        +NotPlayableException(pathname, t: Throwable)
+        +NotPlayableException(pathname, msg, t: Throwable)
         +getPathname() String
         +toString() String
     }
