@@ -2,7 +2,7 @@
 
 A fully featured desktop audio player written in **Java 17** with a **JavaFX** GUI. It plays WAV, MP3 and OGG files, reads song metadata, manages M3U playlists and lets users search, sort and navigate their music library in real time.
 
-The project was built at Technische Hochschule Ingolstadt. Its focus is **clean object-oriented design**: a layered architecture, classic design patterns and thread-safe UI updates.
+The focus is on **clean object-oriented design**: a layered architecture, classic design patterns and thread-safe UI updates.
 
 ![Java](https://img.shields.io/badge/Java-17+-orange?logo=openjdk&logoColor=white)
 ![JavaFX](https://img.shields.io/badge/JavaFX-21-blue)
@@ -107,6 +107,20 @@ The code is split into two clearly separated layers:
 ```bash
 mvn clean javafx:run
 ```
+
+---
+
+## 🛠️ How it was built
+
+I developed StudiPlayer over the course of a semester as part of the *Programming 2* practical course at Technische Hochschule Ingolstadt. The application grew **incrementally across ten milestones**, each one extending the existing codebase rather than starting fresh:
+
+1. **Domain model:** path and filename parsing, the `AudioFile` class hierarchy, metadata and duration handling
+2. **Playlists & persistence:** M3U loading and saving, the factory for creating audio files
+3. **Robustness:** a checked exception model and graceful handling of broken files
+4. **Search, sorting & iteration:** comparators, the `SortCriterion` enum and a controllable iterator
+5. **User interface:** the JavaFX GUI with background threads for playback and the live timer
+
+Each milestone was validated against an **automated JUnit test suite**. Since every step built on the previous one, this meant continuously refactoring and keeping earlier functionality working while adding new features, much like maintaining a real codebase.
 
 ---
 
