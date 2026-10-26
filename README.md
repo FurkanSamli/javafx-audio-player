@@ -47,54 +47,9 @@ The code is split into two clearly separated layers:
 | `studiplayer.audio` | Domain model: audio file types, metadata, playlists, iteration, sorting, error handling |
 | `studiplayer.ui` | JavaFX presentation layer: main window, song table, controls, background threads |
 
-```mermaid
-classDiagram
-    direction TB
-    class AudioFile {
-        <<abstract>>
-        +parsePathname(path)
-        +parseFilename(file)
-        +play()*
-        +togglePause()*
-        +stop()*
-    }
-    class SampledFile {
-        <<abstract>>
-        #duration
-        +formatDuration()
-        +formatPosition()
-    }
-    class WavFile
-    class TaggedFile {
-        -album
-        +readAndStoreTags()
-    }
-    class AudioFileFactory {
-        +createAudioFile(path)$
-    }
-    class PlayList {
-        +loadFromM3U(path)
-        +saveAsM3U(path)
-        +nextSong()
-        +jumpToAudioFile(file)
-    }
-    class ControllablePlayListIterator
-    class Comparator~AudioFile~ {
-        <<interface>>
-    }
-
-    AudioFile <|-- SampledFile
-    SampledFile <|-- WavFile
-    SampledFile <|-- TaggedFile
-    AudioFileFactory ..> AudioFile : creates
-    PlayList o-- AudioFile
-    PlayList --> ControllablePlayListIterator
-    ControllablePlayListIterator ..> Comparator~AudioFile~ : sorts with
-    Comparator~AudioFile~ <|.. AuthorComparator
-    Comparator~AudioFile~ <|.. TitleComparator
-    Comparator~AudioFile~ <|.. AlbumComparator
-    Comparator~AudioFile~ <|.. DurationComparator
-```
+<p align="center">
+  <img src="docs/class-diagram.png" alt="Class diagram of StudiPlayer" width="850">
+</p>
 
 ### Design decisions
 
