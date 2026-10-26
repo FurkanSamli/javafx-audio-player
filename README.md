@@ -48,7 +48,7 @@ The code is split into two clearly separated layers:
 | `studiplayer.ui` | JavaFX presentation layer: main window, song table, controls, background threads |
 
 <p align="center">
-  <img src="docs/uml-class-diagram.png" alt="Class diagram of StudiPlayer" width="900">
+  <img src="docs/class-diagram-uml.png" alt="Class diagram of StudiPlayer">
 </p>
 
 ### Design decisions
