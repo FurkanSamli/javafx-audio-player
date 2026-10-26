@@ -1,0 +1,3 @@
+# Default playlist - one audio file path per line (.wav, .mp3, .ogg)
+# Lines starting with # are ignored.
+audiofiles/Artist - Song Title.mp3

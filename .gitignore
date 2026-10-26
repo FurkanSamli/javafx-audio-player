@@ -1,0 +1,21 @@
+# Build output
+target/
+bin/
+out/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Course library & media (not redistributed)
+lib/*.jar
+audiofiles/
